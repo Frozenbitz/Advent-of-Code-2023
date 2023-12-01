@@ -1,3 +1,6 @@
+# Advent-of-Code-2023
+C++ project for 2023 code challenges  
+
 # C++ project for 2023 code challenges
 
 Intro for Advent of Coding for WSL:
