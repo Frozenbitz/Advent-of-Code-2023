@@ -8,6 +8,8 @@ project(AoC-day1-challenge1 LANGUAGES CXX)
 # todo:  clear all c and C++ flags before compilation, since we want to set those up
 
 # gather unit tests and execute them
+include(CTest)
+enable_testing()
 add_subdirectory(test)
 
 # include helpers
