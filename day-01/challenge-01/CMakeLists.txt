@@ -13,21 +13,23 @@ add_subdirectory(test)
 # include helpers
 include(cmake/genericTarget.cmake)
 
+# parse configure file to include relevant test data for the first challenge
+# configure_file (
+#     "cmake/config.h.in"
+#     "include/config.h"
+# )
+
+
 # add the main class for this assignment
-add_library(
-    trebuchet 
-    src/trebuchet.cpp
-)
+add_library(trebuchet src/trebuchet.cpp)
+add_library(AOC::TREBUCHET ALIAS trebuchet)
 target_include_directories(trebuchet PUBLIC include)
 target_link_libraries(trebuchet UTIL::COMPILEOPTIONS)
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
-add_executable(
-        aoc-d1c1
-        src/main.cpp
-)
-target_include_directories(aoc-d1c1 PUBLIC inlcude)
+add_executable(aoc-d1c1 src/main.cpp)
 target_link_libraries(aoc-d1c1 UTIL::COMPILEOPTIONS)
+target_link_libraries(aoc-d1c1 AOC::TREBUCHET)
 
 # execute current target in a shell after successfull compilation
 add_custom_target(run
