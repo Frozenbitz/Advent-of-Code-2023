@@ -2,23 +2,31 @@
 #define TREBUCHET_H
 
 // Contents of your trebuchet.h header file go here
+#include <iostream>
+#include <fstream>
+#include <string>
 
-class trebuchet
+
+class trebuchetCalibration
 {
 private:
     /* data */
+
+    // filehandle
+    std::ifstream inputFileHandle;
+
+    // trebuchet parameters
+    unsigned trebuchetCalibrationValue;
+
+    unsigned parseCalibrationLine(const std::string & lineOfText) const;
+
 public:
-    trebuchet(/* args */);
-    ~trebuchet();
+    trebuchetCalibration() = delete;
+    trebuchetCalibration(std::string const & inputFileName);
+    ~trebuchetCalibration();
+
+    unsigned getCalibrationData() const;
 };
-
-trebuchet::trebuchet(/* args */)
-{
-}
-
-trebuchet::~trebuchet()
-{
-}
 
 
 #endif // TREBUCHET_H
