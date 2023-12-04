@@ -57,6 +57,7 @@ jobs:
         echo "build-source-dir=${{ github.workspace }}day-01/challenge-01" >> "$GITHUB_OUTPUT"
 
     - name: Configure CMake
+      working-directory: ${{ steps.strings.outputs.build-source-dir }}
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
