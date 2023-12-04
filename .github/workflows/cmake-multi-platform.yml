@@ -52,9 +52,9 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-output-dir=${{ github.workspace }}day-01/challenge-01/build/default" >> "$GITHUB_OUTPUT"
-        echo "build-test-dir=${{ github.workspace }}day-01/challenge-01/build/default" >> "$GITHUB_OUTPUT"
-        echo "build-source-dir=${{ github.workspace }}day-01/challenge-01" >> "$GITHUB_OUTPUT"
+        echo "build-output-dir=${{ github.workspace }}/day-01/challenge-01/build/default" >> "$GITHUB_OUTPUT"
+        echo "build-test-dir=${{ github.workspace }}/day-01/challenge-01/build/default" >> "$GITHUB_OUTPUT"
+        echo "build-source-dir=${{ github.workspace }}/day-01/challenge-01" >> "$GITHUB_OUTPUT"
 
     - name: Configure CMake
       working-directory: ${{ steps.strings.outputs.build-source-dir }}
