@@ -7,7 +7,9 @@ int main() {
 
     // here are the main steps: 
     // provide a file containing the data to analyse
-    std::string inputDataFileName = "/home/peter/Coding/AdventOfCode/day-01/challenge-01/example.txt";
+    // std::string inputDataFileName = "/home/peter/Coding/AdventOfCode/day-01/challenge-01/example.txt";
+    // std::string inputDataFileName = "/home/peter/Coding/AdventOfCode/day-01/challenge-01/riddle.txt";
+    std::string inputDataFileName = "/home/peter/Coding/AdventOfCode/day-01/challenge-01/example2.txt";
 
     // create a trebuchet object to calculate the data
 

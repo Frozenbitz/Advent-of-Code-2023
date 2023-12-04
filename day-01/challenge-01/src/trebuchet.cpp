@@ -45,7 +45,7 @@ trebuchetCalibration::parseCalibrationLine(const std::string& lineOfText) const
 {
     // match either the first or the last digit
     // match can be (m1,g1) or (m2,g2)
-    std::regex left_pattern("^[a-z,A-Z]*([0-9])", std::regex::egrep);
+    std::regex left_pattern("^.*(one)|(two)|(three)|(four)|(five)|(six)|(seven)|(eight)|(nine)|([0-9])", std::regex::egrep);
     std::regex right_pattern("([0-9])[a-z,A-Z]*$", std::regex::egrep);
 
     std::smatch lmatch;
@@ -54,10 +54,15 @@ trebuchetCalibration::parseCalibrationLine(const std::string& lineOfText) const
     if (std::regex_search(lineOfText, lmatch, left_pattern) &&
         std::regex_search(lineOfText, rmatch, right_pattern))
     {
-        // lmatch[1].str();
+        for (auto &&i : lmatch)
+        {
+            std::cout << i << std::endl;
+        }
+        
+
         std::stringstream concat;
         concat << lmatch[1].str() << rmatch[1].str();
-        std::cout << concat.str() << std::endl;
+        // std::cout << concat.str() << std::endl;
         concat >> returnVal;
         // std::cout << lmatch[1].str() << std::endl;
         // std::cout << rmatch[1].str() << std::endl;
