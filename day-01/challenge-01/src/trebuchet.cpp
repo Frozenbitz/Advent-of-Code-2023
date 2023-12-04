@@ -32,7 +32,7 @@ trebuchetCalibration::trebuchetCalibration(std::string const& inputFileName)
 trebuchetCalibration::~trebuchetCalibration() { inputFileHandle.close(); }
 
 // return calculated sum for claibration
-unsigned trebuchetCalibration::getCalibrationData() const { return 0; }
+unsigned trebuchetCalibration::getCalibrationData() const { return trebuchetCalibrationValue; }
 
 // parse a single line of parameters
 // rules are simple:
@@ -50,37 +50,18 @@ trebuchetCalibration::parseCalibrationLine(const std::string& lineOfText) const
 
     std::smatch lmatch;
     std::smatch rmatch;
+    int returnVal = 0;
     if (std::regex_search(lineOfText, lmatch, left_pattern) &&
         std::regex_search(lineOfText, rmatch, right_pattern))
     {
-
-        std::cout << "current no of matches: " << lmatch.size() << std::endl;
-        std::cout << "current no of matches: " << rmatch.size() << std::endl;
-
-        for (auto& i : lmatch)
-        {
-            std::cout << i.str() << std::endl;
-        }
-        for (auto& i : rmatch)
-        {
-            std::cout << i.str() << std::endl;
-        }
-
-        // if (matches.size() == 3)
-        // {
-        //     std::cout << matches[0].str() << std::endl;
-        //     std::cout << matches[1].str() << std::endl;
-        //     std::cout << matches[2].str() << std::endl;
-        // }
-        // else if (matches.size() == 2)
-        // {
-        //     std::cout << matches[1].str() << std::endl;
-        // }
-        // else
-        // {
-        //     // throw "failed to extract data";
-        // }
+        // lmatch[1].str();
+        std::stringstream concat;
+        concat << lmatch[1].str() << rmatch[1].str();
+        std::cout << concat.str() << std::endl;
+        concat >> returnVal;
+        // std::cout << lmatch[1].str() << std::endl;
+        // std::cout << rmatch[1].str() << std::endl;
     }
 
-    return 1;
+    return returnVal;
 }
