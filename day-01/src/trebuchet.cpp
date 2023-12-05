@@ -45,7 +45,7 @@ void trebuchetCalibration::parseInputFile()
     while (std::getline(inputFileHandle, line))
     {
         // Process each line of the file and sum up all values
-        trebuchetCalibrationValue += parseCalibrationLineAlpha(line);
+        trebuchetCalibrationValue += parseCalibrationLine(line);
 
         if (inputFileHandle.eof())
             break; // stop
@@ -102,11 +102,6 @@ unsigned trebuchetCalibration::parseCalibrationLine(
     if (std::regex_search(lineOfText, lmatch, left_pattern) &&
         std::regex_search(lineOfText, rmatch, right_pattern))
     {
-        for (auto&& i : lmatch)
-        {
-            std::cout << i << std::endl;
-        }
-
         std::stringstream concat;
         concat << lmatch[1].str() << rmatch[1].str();
         // std::cout << concat.str() << std::endl;
