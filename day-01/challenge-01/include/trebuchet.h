@@ -18,10 +18,14 @@ private:
     // trebuchet parameters
     unsigned trebuchetCalibrationValue;
 
-    unsigned parseCalibrationLine(const std::string & lineOfText) const;
-
 public:
+    void openInputFile();
+    void parseInputFile();
+    void checkInputFile();
+    unsigned parseCalibrationLineAlpha(const std::string & lineOfText) const;
+
     trebuchetCalibration() = delete;
+    trebuchetCalibration(unsigned initVal);
     trebuchetCalibration(std::string const & inputFileName);
     ~trebuchetCalibration();
 
