@@ -23,6 +23,7 @@ public:
     void parseInputFile();
     void checkInputFile();
     unsigned parseCalibrationLineAlpha(const std::string & lineOfText) const;
+    unsigned parseCalibrationLine(const std::string& lineOfText) const;
 
     trebuchetCalibration() = delete;
     trebuchetCalibration(unsigned initVal);

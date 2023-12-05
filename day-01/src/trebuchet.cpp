@@ -1,6 +1,8 @@
 #include "trebuchet.h"
 #include <exception>
 #include <regex>
+#include <algorithm>
+#include <vector>
 
 trebuchetCalibration::trebuchetCalibration(unsigned initVal)
     : trebuchetCalibrationValue(initVal) // ignore the filehandle for testing
@@ -59,13 +61,34 @@ void trebuchetCalibration::checkInputFile()
     }
 }
 
+
+// parses a single line of text
+// the following token need to be extracted from start and from end
+// 1-9, one, two, three, four, five, six, seven, eight, nine
+// extracted token need to be parsed and returned as a single uint value
+unsigned trebuchetCalibration::parseCalibrationLineAlpha(
+    const std::string& lineOfText) const
+{
+
+    std::string_view one = "one";
+    std::string_view two = "two";
+    std::string_view three = "three";
+    
+    std::vector<std::string_view> tokenize {one, two, three};
+
+
+    return 0;
+}
+
+
+
 // parse a single line of parameters
 // rules are simple:
 // in each line of text there can either be 1 or 2 digits
 // if we have 2 digits, these make up the number
 // if we have only 1, we need to create a 2 digit number with this digit (1
 // -> 11, ...)
-unsigned trebuchetCalibration::parseCalibrationLineAlpha(
+unsigned trebuchetCalibration::parseCalibrationLine(
     const std::string& lineOfText) const
 {
     // match either the first or the last digit
