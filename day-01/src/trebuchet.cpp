@@ -86,20 +86,17 @@ unsigned trebuchetCalibration::parseCalibrationLineAlpha(
         auto foundDigit = test.find(lookup.str);
         if (foundDigit != std::string::npos)
         {
-            lookup.x = foundDigit;
+            lookup.x++;
             std::cout << foundDigit;
         }
     }
 
+
     
-    auto found = test.find(lookupAlphString[1].str);
+    auto found = test.find_first_of(lookupDigitString[0].str);
     if (found != std::string::npos) 
     {
         std::cout << found << std::endl;
-    } 
-    else
-    {
-        std::cout << "not found" << std::endl;
     }
 
     return 0;
