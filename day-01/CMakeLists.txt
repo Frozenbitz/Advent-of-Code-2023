@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 
 set(CMAKE_CXX_STANDARD 17)
 
-
 project(AoC-day1-challenge1 LANGUAGES CXX)
 
 # todo:  clear all c and C++ flags before compilation, since we want to set those up
