@@ -97,7 +97,8 @@ unsigned trebuchetCalibration::parseCalibrationLineAlpha(
         }
     }
 
-    lookup firstCalibrationValue {"", 10}; // make sure this is greater than any encoded value
+    int string_size = testAlph.size() + 1;
+    lookup firstCalibrationValue {"", string_size}; // make sure this is greater than any encoded value
     for (const auto &i : lookupAlphString)
     {
         if (i.x != none && i.x < firstCalibrationValue.x)
@@ -115,11 +116,10 @@ unsigned trebuchetCalibration::parseCalibrationLineAlpha(
         }
     }  
 
-    std::stringstream concat;
-    int returnVal = 0;
-    concat << firstCalibrationValue.str << lastCalibrationValue.str;
-    concat >> returnVal;
-    return returnVal;
+    if (firstCalibrationValue.x == string_size || lastCalibrationValue.x == none)
+        throw std::runtime_error{"Calibration value could not be found"};
+
+    return (stringToInt(firstCalibrationValue.str) * 10) + stringToInt(lastCalibrationValue.str);
 }
 
 // parse a single line of parameters

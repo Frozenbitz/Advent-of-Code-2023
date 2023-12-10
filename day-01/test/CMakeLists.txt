@@ -4,25 +4,30 @@ add_executable(TEST::SUCCESS ALIAS alwaysSuccess)
 target_link_libraries(alwaysSuccess UTIL::COMPILEOPTIONS)
 
 # test 1: parse 3 simple execution examples 
-add_executable(trebuchetSimple test_calculateCalibrationExamples.cpp)
-add_executable(TEST::trebuchetSimple ALIAS trebuchetSimple)
-target_include_directories(trebuchetSimple PRIVATE ../include)
-target_link_libraries(trebuchetSimple UTIL::COMPILEOPTIONS)
-target_link_libraries(trebuchetSimple AOC::TREBUCHET)
+add_executable(calculateCalibrationExamples test_calculateCalibrationExamples.cpp)
+add_executable(TEST::calculateCalibrationExamples ALIAS calculateCalibrationExamples)
+target_include_directories(calculateCalibrationExamples PRIVATE ../include)
+target_link_libraries(calculateCalibrationExamples UTIL::COMPILEOPTIONS)
+target_link_libraries(calculateCalibrationExamples AOC::TREBUCHET)
 
 # test 2: parse just strings, we use this to parse corner cases from our examples
-add_executable(trebuchetString test_parseCalibrationString.cpp)
-add_executable(TEST::trebuchetString ALIAS trebuchetString)
-target_include_directories(trebuchetString PRIVATE ../include)
-target_link_libraries(trebuchetString UTIL::COMPILEOPTIONS)
-target_link_libraries(trebuchetString AOC::TREBUCHET)
+add_executable(trebuchetParseCalibrationString test_parseCalibrationString.cpp)
+add_executable(TEST::trebuchetParseCalibrationString ALIAS trebuchetParseCalibrationString)
+target_include_directories(trebuchetParseCalibrationString PRIVATE ../include)
+target_link_libraries(trebuchetParseCalibrationString UTIL::COMPILEOPTIONS)
+target_link_libraries(trebuchetParseCalibrationString AOC::TREBUCHET)
 
-# test 2: parse just strings, we use this to parse corner cases from our examples
 add_executable(trebuchetConvertStrings test_stringConvert.cpp)
 add_executable(TEST::trebuchetConvertStrings ALIAS trebuchetConvertStrings)
 target_include_directories(trebuchetConvertStrings PRIVATE ../include)
 target_link_libraries(trebuchetConvertStrings UTIL::COMPILEOPTIONS)
 target_link_libraries(trebuchetConvertStrings AOC::TREBUCHET)
+
+add_executable(trebuchetDigits test_trebuchetDigits.cpp)
+add_executable(TEST::trebuchetDigits ALIAS trebuchetDigits)
+target_include_directories(trebuchetDigits PRIVATE ../include)
+target_link_libraries(trebuchetDigits UTIL::COMPILEOPTIONS)
+target_link_libraries(trebuchetDigits AOC::TREBUCHET)
 
 
 
@@ -36,19 +41,27 @@ add_test(
     "${CMAKE_CTEST_COMMAND}")
 
 add_test(
-  NAME TrebuchetParseString
+  NAME "Trebuchet Parse Calibration String"
   COMMAND
-    TEST::trebuchetString --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+    TEST::trebuchetParseCalibrationString --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
-    --build-project TEST::trebuchetString --test-command
+    --build-project TEST::trebuchetParseCalibrationString --test-command
     "${CMAKE_CTEST_COMMAND}")
 
 add_test(
-  NAME TrebuchetCalculate
+  NAME "Trebuchet Calculate Calibration Examples"
   COMMAND
-    TEST::trebuchetSimple --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+    TEST::calculateCalibrationExamples --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
-    --build-project TEST::trebuchetSimple --test-command
+    --build-project TEST::calculateCalibrationExamples --test-command
+    "${CMAKE_CTEST_COMMAND}")
+
+add_test(
+  NAME "Trebuchet D1C2 Digits"
+  COMMAND
+    TEST::trebuchetDigits --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+    --build-project TEST::trebuchetDigits --test-command
     "${CMAKE_CTEST_COMMAND}")
 
 add_test(
