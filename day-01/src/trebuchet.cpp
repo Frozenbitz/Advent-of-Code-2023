@@ -74,83 +74,64 @@ unsigned trebuchetCalibration::parseCalibrationLineAlpha(
     // compound for allocating string and position inside vector
     struct lookup
     {
-        std::string str;
-        int x = none;
+        std::string digit;
+        std::vector<int> recordedPosition = {none};
     };
 
     // this returns all the available positions from the numeric string
     // but double digits are not yet implemented! (eg. "twofkljktwoonetwo")
     std::vector<lookup> lookupAlphString{
-        {"zero", none}, {"one", none}, {"two", none},   {"three", none}, {"four", none},
-        {"five", none}, {"six", none}, {"seven", none}, {"eight", none}, {"nine", none},
-        {"0", none}, {"1", none}, {"2", none},   {"3", none}, {"4", none},
-        {"5", none}, {"6", none}, {"7", none}, {"8", none}, {"9", none}};
+        {"zero", {}}, {"one", {}}, {"two", {}},   {"three", {}}, {"four", {}},
+        {"five", {}}, {"six", {}}, {"seven", {}}, {"eight", {}}, {"nine", {}},
+        {"0", {}}, {"1", {}}, {"2", {}},   {"3", {}}, {"4", {}},
+        {"5", {}}, {"6", {}}, {"7", {}}, {"8", {}}, {"9", {}}};
 
     // parse all written numerals
     const std::string testAlph = lineOfText;
     for (auto& lookup : lookupAlphString)
     {
-        auto stringPosition = testAlph.find(lookup.str);
-        if (stringPosition != std::string::npos)
-        {
-            lookup.x = stringPosition;
-        }
+        auto stringPosition = 0;
+        do{
+            stringPosition = testAlph.find(lookup.digit, stringPosition);
+            if (stringPosition != std::string::npos)
+            {
+                lookup.recordedPosition.push_back(stringPosition);
+                stringPosition++;
+            }
+        } while (stringPosition != std::string::npos);
     }
 
     int string_size = testAlph.size() + 1;
-    lookup firstCalibrationValue {"", string_size}; // make sure this is greater than any encoded value
-    for (const auto &i : lookupAlphString)
+    lookup firstCalibrationValue {"", {string_size}}; // make sure this is greater than any encoded value
+    for (const auto &found : lookupAlphString)
     {
-        if (i.x != none && i.x < firstCalibrationValue.x)
+        for (auto & actualPosition : found.recordedPosition)
         {
-            firstCalibrationValue = i;
-        }
+            if (actualPosition != none && actualPosition < firstCalibrationValue.recordedPosition[0])
+            {
+                firstCalibrationValue.digit = found.digit;
+                firstCalibrationValue.recordedPosition[0] = actualPosition;
+            }
+        }        
     }
 
-    lookup lastCalibrationValue {"", -1}; // make sure this is lesser than any encoded value
-    for (const auto &i : lookupAlphString)
+    lookup lastCalibrationValue {"", {none}}; // make sure this is lesser than any encoded value
+    for (const auto &found : lookupAlphString)
     {
-        if (i.x != none && i.x > lastCalibrationValue.x)
+        for (auto & actualPosition : found.recordedPosition)
         {
-            lastCalibrationValue = i;
-        }
+            if (actualPosition != none && actualPosition > lastCalibrationValue.recordedPosition[0])
+            {
+                lastCalibrationValue.digit = found.digit;
+                lastCalibrationValue.recordedPosition[0] = actualPosition;
+            }
+        }  
     }  
 
-    if (firstCalibrationValue.x == string_size || lastCalibrationValue.x == none)
+    if (firstCalibrationValue.recordedPosition[0] == string_size || lastCalibrationValue.recordedPosition[0] == none)
         throw std::runtime_error{"Calibration value could not be found"};
 
-    return (stringToInt(firstCalibrationValue.str) * 10) + stringToInt(lastCalibrationValue.str);
-}
-
-// parse a single line of parameters
-// rules are simple:
-// in each line of text there can either be 1 or 2 digits
-// if we have 2 digits, these make up the number
-// if we have only 1, we need to create a 2 digit number with this digit (1
-// -> 11, ...)
-unsigned
-trebuchetCalibration::parseCalibrationLine(const std::string& lineOfText) const
-{
-    // match either the first or the last digit
-    // match can be (m1,g1) or (m2,g2)
-    std::regex left_pattern("^[a-z,A-Z]*([0-9])", std::regex::egrep);
-    std::regex right_pattern("([0-9])[a-z,A-Z]*$", std::regex::egrep);
-
-    std::smatch lmatch;
-    std::smatch rmatch;
-    int returnVal = 0;
-    if (std::regex_search(lineOfText, lmatch, left_pattern) &&
-        std::regex_search(lineOfText, rmatch, right_pattern))
-    {
-        std::stringstream concat;
-        concat << lmatch[1].str() << rmatch[1].str();
-        // std::cout << concat.str() << std::endl;3
-        concat >> returnVal;
-        // std::cout << lmatch[1].str() << std::endl;
-        // std::cout << rmatch[1].str() << std::endl;
-    }
-
-    return returnVal;
+    return (stringToInt(firstCalibrationValue.digit) * 10) + stringToInt(lastCalibrationValue.digit);
 }
 
 int trebuchetCalibration::stringToInt(const std::string& str) const
