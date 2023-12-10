@@ -9,8 +9,9 @@ trebuchetCalibration::trebuchetCalibration(unsigned initVal)
 {
 }
 
-trebuchetCalibration::trebuchetCalibration(std::string const& inputFileName)
-    : inputFileHandle(inputFileName,
+trebuchetCalibration::trebuchetCalibration(std::string const& inputPath,
+                                            std::string const& inputFileName)
+    : inputFileHandle({inputPath + inputFileName},
                       std::ifstream::in), // ctor for a file handle
       trebuchetCalibrationValue(0)
 {

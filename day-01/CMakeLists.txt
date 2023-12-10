@@ -29,13 +29,11 @@ target_include_directories(trebuchet PUBLIC include)
 target_link_libraries(trebuchet UTIL::COMPILEOPTIONS)
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
-add_executable(aoc-d1c1 src/main.cpp)
-target_link_libraries(aoc-d1c1 UTIL::COMPILEOPTIONS)
-target_link_libraries(aoc-d1c1 AOC::TREBUCHET)
+add_executable(aoc-day1 src/main.cpp)
+target_link_libraries(aoc-day1 UTIL::COMPILEOPTIONS)
+target_link_libraries(aoc-day1 AOC::TREBUCHET)
 
-# execute current target in a shell after successfull compilation
-add_custom_target(run
-    COMMAND aoc-d1c1
-    DEPENDS aoc-d1c1
-    WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
-)
+# create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
+# with relative paths
+set(EXAMPLE_PATH "${CMAKE_SOURCE_DIR}/examples")
+file(COPY ${EXAMPLE_PATH} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

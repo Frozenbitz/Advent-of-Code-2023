@@ -28,7 +28,7 @@ public:
 
     trebuchetCalibration() = delete;
     trebuchetCalibration(unsigned initVal);
-    trebuchetCalibration(std::string const & inputFileName);
+    trebuchetCalibration(std::string const& inputFileName, std::string const & inputPath);
     ~trebuchetCalibration();
 
     unsigned getCalibrationData() const;

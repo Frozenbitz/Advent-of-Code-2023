@@ -5,19 +5,9 @@
 
 int main()
 {
-
-    // here are the main steps:
-    // provide a file containing the data to analyse
-    // std::string inputDataFileName =
-    // "/home/peter/Coding/AdventOfCode/day-01/example3.txt";
-    std::string inputDataFileName =
-    "/home/peter/Coding/AdventOfCode/day-01/riddle.txt";
-    // std::string inputDataFileName =
-    //     "/home/peter/Coding/AdventOfCode/day-01/example2.txt";
-
-    // create a trebuchet object to calculate the data
-
-    trebuchetCalibration TCalibrate(inputDataFileName);
+    std::string inputPath {"./examples/"};
+    std::string inputFile {"/riddle.txt"};
+    trebuchetCalibration TCalibrate(inputPath, inputFile);
 
     // return the calibration data
     std::cout << TCalibrate.getCalibrationData() << std::endl;

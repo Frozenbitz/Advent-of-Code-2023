@@ -29,6 +29,10 @@ target_include_directories(trebuchetDigits PRIVATE ../include)
 target_link_libraries(trebuchetDigits UTIL::COMPILEOPTIONS)
 target_link_libraries(trebuchetDigits AOC::TREBUCHET)
 
+# create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
+# with relative paths
+set(TEST_DATA_PATH "${CMAKE_CURRENT_SOURCE_DIR}/testdata")
+file(COPY ${TEST_DATA_PATH} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
 # collect all tests for ctest
