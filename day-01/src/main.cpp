@@ -9,7 +9,7 @@ int main()
     // here are the main steps:
     // provide a file containing the data to analyse
     // std::string inputDataFileName =
-    // "/home/peter/Coding/AdventOfCode/day-01/example.txt";
+    // "/home/peter/Coding/AdventOfCode/day-01/example3.txt";
     std::string inputDataFileName =
     "/home/peter/Coding/AdventOfCode/day-01/riddle.txt";
     // std::string inputDataFileName =
