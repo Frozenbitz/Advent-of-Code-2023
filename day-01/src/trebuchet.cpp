@@ -2,6 +2,7 @@
 #include <exception>
 #include <regex>
 #include <string_view>
+#include <unordered_map>
 
 trebuchetCalibration::trebuchetCalibration(unsigned initVal)
     : trebuchetCalibrationValue(initVal) // ignore the filehandle for testing
@@ -67,39 +68,58 @@ void trebuchetCalibration::checkInputFile()
 unsigned trebuchetCalibration::parseCalibrationLineAlpha(
     const std::string& lineOfText) const
 {
-    // compound for allocating string and position
+    // value not found
+    constexpr int none = -1;
+
+    // compound for allocating string and position inside vector
     struct lookup
     {
-        std::string_view str;
-        int x;
+        std::string str;
+        int x = none;
     };
 
+    // this returns all the available positions from the numeric string
+    // but double digits are not yet implemented! (eg. "twofkljktwoonetwo")
     std::vector<lookup> lookupAlphString{
-        {"zero", 0}, {"one", 0}, {"two", 0},   {"three", 0}, {"four", 0},
-        {"five", 0}, {"six", 0}, {"seven", 0}, {"eight", 0}, {"nine", 0}};
-    std::vector<lookup> lookupDigitString{{"0123456789", 0}};
+        {"zero", none}, {"one", none}, {"two", none},   {"three", none}, {"four", none},
+        {"five", none}, {"six", none}, {"seven", none}, {"eight", none}, {"nine", none},
+        {"0", none}, {"1", none}, {"2", none},   {"3", none}, {"4", none},
+        {"5", none}, {"6", none}, {"7", none}, {"8", none}, {"9", none}};
 
-    std::string_view test = lineOfText;
-
-    for(auto & lookup : lookupAlphString)
+    // parse all written numerals
+    const std::string testAlph = lineOfText;
+    for (auto& lookup : lookupAlphString)
     {
-        auto foundDigit = test.find(lookup.str);
-        if (foundDigit != std::string::npos)
+        auto stringPosition = testAlph.find(lookup.str);
+        if (stringPosition != std::string::npos)
         {
-            lookup.x++;
-            std::cout << foundDigit;
+            lookup.x = stringPosition;
         }
     }
 
-
-    
-    auto found = test.find_first_of(lookupDigitString[0].str);
-    if (found != std::string::npos) 
+    lookup firstCalibrationValue {"", 10}; // make sure this is greater than any encoded value
+    for (const auto &i : lookupAlphString)
     {
-        std::cout << found << std::endl;
+        if (i.x != none && i.x < firstCalibrationValue.x)
+        {
+            firstCalibrationValue = i;
+        }
     }
 
-    return 0;
+    lookup lastCalibrationValue {"", -1}; // make sure this is lesser than any encoded value
+    for (const auto &i : lookupAlphString)
+    {
+        if (i.x != none && i.x > lastCalibrationValue.x)
+        {
+            lastCalibrationValue = i;
+        }
+    }  
+
+    std::stringstream concat;
+    int returnVal = 0;
+    concat << firstCalibrationValue.str << lastCalibrationValue.str;
+    concat >> returnVal;
+    return returnVal;
 }
 
 // parse a single line of parameters
@@ -131,4 +151,24 @@ trebuchetCalibration::parseCalibrationLine(const std::string& lineOfText) const
     }
 
     return returnVal;
+}
+
+int trebuchetCalibration::stringToInt(const std::string& str) const
+{
+    static const std::unordered_map<std::string, int> lookup = {
+        {"zero", 0}, {"one", 1}, {"two", 2},   {"three", 3}, {"four", 4},
+        {"five", 5}, {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9},
+        {"0", 0}, {"1", 1}, {"2", 2},   {"3", 3}, {"4", 4},
+        {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}};
+
+    auto it = lookup.find(str);
+    if (it != lookup.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        // Handle error or return a default value
+        return -1; // Example: return -1 for not found
+    }
 }
