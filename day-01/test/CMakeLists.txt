@@ -17,7 +17,24 @@ target_include_directories(trebuchetString PRIVATE ../include)
 target_link_libraries(trebuchetString UTIL::COMPILEOPTIONS)
 target_link_libraries(trebuchetString AOC::TREBUCHET)
 
+# test 2: parse just strings, we use this to parse corner cases from our examples
+add_executable(trebuchetConvertStrings test_stringConvert.cpp)
+add_executable(TEST::trebuchetConvertStrings ALIAS trebuchetConvertStrings)
+target_include_directories(trebuchetConvertStrings PRIVATE ../include)
+target_link_libraries(trebuchetConvertStrings UTIL::COMPILEOPTIONS)
+target_link_libraries(trebuchetConvertStrings AOC::TREBUCHET)
+
+
+
 # collect all tests for ctest
+add_test(
+  NAME TrebuchetConvertString
+  COMMAND
+    TEST::trebuchetConvertStrings --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+    --build-project TEST::trebuchetConvertStrings --test-command
+    "${CMAKE_CTEST_COMMAND}")
+
 add_test(
   NAME TrebuchetParseString
   COMMAND
