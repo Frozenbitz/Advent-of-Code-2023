@@ -9,7 +9,7 @@ int main()
  
     // missing this test: four2tszbgmxpbvninebxns6nineqbqzgjpmpqr
     trebuchetCalibration TCalibrate1("/home/peter/Coding/AdventOfCode/day-01/test/test01.txt");
-    if (TCalibrate1.getCalibrationData() != 236) return 1;
+    if (TCalibrate1.getCalibrationData() != 285) return 1;
 
     trebuchetCalibration TCalibrate2("/home/peter/Coding/AdventOfCode/day-01/test/test02.txt");
     if (TCalibrate2.getCalibrationData() != 104) return 2;
