@@ -23,15 +23,15 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-    # add_library(trebuchet src/trebuchet.cpp)
-    # add_library(AOC::TREBUCHET ALIAS trebuchet)
-    # target_include_directories(trebuchet PUBLIC include)
-    # target_link_libraries(trebuchet UTIL::COMPILEOPTIONS)
+add_library(cubeConundrum src/cubeConundrum.cpp)
+add_library(AOC::cubeConundrum ALIAS cubeConundrum)
+target_include_directories(cubeConundrum PUBLIC include)
+target_link_libraries(cubeConundrum UTIL::COMPILEOPTIONS)
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
 add_executable(aoc-day2 src/main.cpp)
 target_link_libraries(aoc-day2 UTIL::COMPILEOPTIONS)
-
+target_link_libraries(aoc-day2 AOC::cubeConundrum)
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
 # with relative paths
