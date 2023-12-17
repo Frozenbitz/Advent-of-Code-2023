@@ -11,7 +11,7 @@ CubeVal{-1}, color{""}
     std::string pattern = R"(^[[:space:]]*([[:digit:]]+)[[:space:]]*((?:red)|(?:green)|(?:blue)))";
     std::regex token_pattern(pattern, 
                             std::regex::ECMAScript|
-                            std::regex::multiline); //be sure to select right mode 
+                            std::regex::multiline); // for ^ support
     std::smatch tmatch;
 
     if (std::regex_search(input, tmatch, token_pattern))

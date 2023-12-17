@@ -1,77 +1,40 @@
 #include "cubeConundrum.h"
+#include "game.h"
 #include <sstream>
 #include <regex>
 
 
-cubeConundrum::cubeConundrum(std::string const& inputPath,
-                             std::string const& inputData)
-    : inputFileHandle{{inputPath + inputData}, std::ifstream::in},
-      cumulativeGameData{
-          {"redMax", 0}, {"greenMax", 0}, {"blueMax", 0},
-      },
-      gameSum(0)
+cubeConundrum::cubeConundrum(std::string const& singleLineOfText)
+    : cumulativeGameData{
+          {"Game", -1}, {"red", -1}, {"green", -1}, {"blue", -1}, // token should map to the colors used!
+      }
 {
-    openInputFile();
-
-    // run the parser and calculate needed data
-    parseInputFile();
-
-    // check the stream status after parsing
-    checkInputFile();
+    std::vector<token> gamesToken = tokenizeColorRangeFromString (singleLineOfText);
+    tokenMax(gamesToken);
 }
 
-void cubeConundrum::openInputFile()
-{
-    if (not inputFileHandle.is_open())
-    {
-        throw std::invalid_argument("wrong file name/path, could not open!");
-    }
-}
-
-void cubeConundrum::parseInputFile()
-{
-    std::string line;
-    while (std::getline(inputFileHandle, line))
-    {
-        // input files are tokenized with ";" >> our data extraction should be
-        //  based on this, otherwise part 2 will be pain
-
-        // Process each line of the file and sum up all values
-        readColorRangeFromText (line);
-
-        if (inputFileHandle.eof())
-            break; // stop
-    }
-}
-
-void cubeConundrum::checkInputFile()
-{
-    if (inputFileHandle.bad())
-    {
-        std::cout << "failed to read stream, try again!" << std::endl;
-        throw std::ios_base::failure("wrong file name/path, could not open!");
-    }
-}
-
-
-void cubeConundrum::readColorRangeFromText ( const std::string & lineOfText)
+std::vector<token> cubeConundrum::tokenizeColorRangeFromString ( const std::string & lineOfText)
 {
     std::vector<std::string> tokenizedString = split(lineOfText, {':'});
-    std::vector<std::string> games = split(tokenizedString.at(1), {';'});
-    tokenizedString.pop_back(); // remove the element we want to further split
-    tokenizedString.insert(tokenizedString.end(), games.begin(), games.end());
+    game newGame {tokenizedString[0]};
+    if (setCumulativeGameData(newGame.gameKey, newGame.gameID) == false) 
+        throw std::invalid_argument("could not insert to cumulativeGameData");
 
+    std::vector<std::string> games = split(tokenizedString.at(1), {';'});
     std::vector<std::string> outputVector;
-    for (auto const & cubeToken : tokenizedString)
+    for (auto const & cubeToken : games)
     {
         std::vector tmp = split(cubeToken, ',');
         outputVector.insert(outputVector.end(), tmp.begin(), tmp.end());
     }
 
-    for (auto const & i : outputVector)
+    std::vector<token> gamesToken;
+    for (auto const & singleToken : outputVector)
     {
-        std::cout << i << std::endl;
+        gamesToken.push_back(singleToken);
     }
+
+    return gamesToken;
 }
 
 // See: https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
@@ -88,7 +51,49 @@ std::vector<std::string> cubeConundrum::split(const std::string& s, char delimit
 }
 
 
-token cubeConundrum::stringToToken(const std::string& str) const
+void cubeConundrum::tokenMax(const std::vector<token> & tokenVector)
 {
-    return token(str);
+    // process all token and find the max value for each map value
+    for (const auto & i: tokenVector )
+    {
+        if (cumulativeGameData[i.color] < i.CubeVal)
+        {
+            cumulativeGameData[i.color] = i.CubeVal; 
+        }
+    }
+}
+
+int cubeConundrum::getCumulativeGameData(std::string const & key) const
+{
+    auto iter = cumulativeGameData.find(key);
+    if (iter != cumulativeGameData.end())
+    {
+        return iter->second;
+    }
+
+    return -1;
+}
+
+bool cubeConundrum::setCumulativeGameData(std::string const & key, int value)
+{
+    auto iter = cumulativeGameData.find(key);
+    if (iter != cumulativeGameData.end())
+    {
+        iter->second = value;
+        return true;
+    }
+
+    return false;
+}
+
+bool cubeConundrum::evaluateGame(int red, int green, int blue) const
+{
+    if((cumulativeGameData.at("red") <= red) &&
+    (cumulativeGameData.at("blue") <= blue) &&
+    (cumulativeGameData.at("green") <= green))
+    {
+        return true;
+    }
+
+    return false;
 }

@@ -23,7 +23,7 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-add_library(cubeConundrum src/cubeConundrum.cpp src/token.cpp)
+add_library(cubeConundrum src/cubeConundrum.cpp src/token.cpp src/game.cpp)
 add_library(AOC::cubeConundrum ALIAS cubeConundrum)
 target_include_directories(cubeConundrum PUBLIC include)
 target_link_libraries(cubeConundrum UTIL::COMPILEOPTIONS)

@@ -13,23 +13,20 @@ class cubeConundrum
 {
 private:
     /* data */
-    std::ifstream inputFileHandle;
+    // std::ifstream inputFileHandle;
     std::unordered_map<std::string, int> cumulativeGameData;
-    int gameSum = 0;
 
 public:
     cubeConundrum() = delete;
-    cubeConundrum(std::string const& inputPath, std::string const& inputData);
+    cubeConundrum(std::string const& lineOfText); // parse and represent a single game
     ~cubeConundrum() = default;
 
-    // public handles
-    void checkInputFile();
-    void parseInputFile();
-    void openInputFile();
-
     std::vector<std::string> split(const std::string& s, char delimiter);
-    void readColorRangeFromText ( const std::string & lineOfText);
-    token stringToToken(const std::string& str) const;
+    std::vector<token> tokenizeColorRangeFromString ( const std::string & lineOfText);
+    void tokenMax(const std::vector<token> & tokens);
+    int getCumulativeGameData(std::string const & key) const;
+    bool setCumulativeGameData(std::string const & key, int value);
+    bool evaluateGame(int red, int green, int blue) const;
 };
 
 #endif // CUBECONUNDRUM_H
