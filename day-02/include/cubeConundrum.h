@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "token.h"
+
 class cubeConundrum
 {
 private:
@@ -27,6 +29,7 @@ public:
 
     std::vector<std::string> split(const std::string& s, char delimiter);
     void readColorRangeFromText ( const std::string & lineOfText);
+    token stringToToken(const std::string& str) const;
 };
 
 #endif // CUBECONUNDRUM_H

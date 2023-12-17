@@ -4,11 +4,11 @@ add_executable(TEST::SUCCESS ALIAS alwaysSuccess)
 target_link_libraries(alwaysSuccess UTIL::COMPILEOPTIONS)
 
 # test 1: parse 3 simple execution examples 
-# add_executable(calculateCalibrationExamples test_calculateCalibrationExamples.cpp)
-# add_executable(TEST::calculateCalibrationExamples ALIAS calculateCalibrationExamples)
-# target_include_directories(calculateCalibrationExamples PRIVATE ../include)
-# target_link_libraries(calculateCalibrationExamples UTIL::COMPILEOPTIONS)
-# target_link_libraries(calculateCalibrationExamples AOC::TREBUCHET)
+add_executable(createToken test_tokenInit.cpp)
+add_executable(TEST::createToken ALIAS createToken)
+target_include_directories(createToken PRIVATE ../include)
+target_link_libraries(createToken UTIL::COMPILEOPTIONS)
+target_link_libraries(createToken AOC::cubeConundrum)
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
 # with relative paths
@@ -23,3 +23,10 @@ add_test(
     TEST::SUCCESS --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
     --build-project TEST::SUCCESS --test-command "${CMAKE_CTEST_COMMAND}")
+
+add_test(
+  NAME "Initialize a Game-Token"
+  COMMAND
+    TEST::createToken --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+    --build-project TEST::createToken --test-command "${CMAKE_CTEST_COMMAND}")

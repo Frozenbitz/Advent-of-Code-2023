@@ -1,13 +1,13 @@
 #include "cubeConundrum.h"
 #include <sstream>
+#include <regex>
 
 
 cubeConundrum::cubeConundrum(std::string const& inputPath,
                              std::string const& inputData)
     : inputFileHandle{{inputPath + inputData}, std::ifstream::in},
       cumulativeGameData{
-          {"redMin", 0},   {"redMax", 0},  {"greenMin", 0},
-          {"greenMax", 0}, {"blueMin", 0}, {"blueMax", 0},
+          {"redMax", 0}, {"greenMax", 0}, {"blueMax", 0},
       },
       gameSum(0)
 {
@@ -33,7 +33,8 @@ void cubeConundrum::parseInputFile()
     std::string line;
     while (std::getline(inputFileHandle, line))
     {
-        // input files are tokenized with ";" >> our data extraction should be based on this, otherwise part 2 will be pain
+        // input files are tokenized with ";" >> our data extraction should be
+        //  based on this, otherwise part 2 will be pain
 
         // Process each line of the file and sum up all values
         readColorRangeFromText (line);
@@ -57,10 +58,17 @@ void cubeConundrum::readColorRangeFromText ( const std::string & lineOfText)
 {
     std::vector<std::string> tokenizedString = split(lineOfText, {':'});
     std::vector<std::string> games = split(tokenizedString.at(1), {';'});
-    tokenizedString.pop_back();
+    tokenizedString.pop_back(); // remove the element we want to further split
     tokenizedString.insert(tokenizedString.end(), games.begin(), games.end());
 
-    for (auto const & i : tokenizedString)
+    std::vector<std::string> outputVector;
+    for (auto const & cubeToken : tokenizedString)
+    {
+        std::vector tmp = split(cubeToken, ',');
+        outputVector.insert(outputVector.end(), tmp.begin(), tmp.end());
+    }
+
+    for (auto const & i : outputVector)
     {
         std::cout << i << std::endl;
     }
@@ -79,22 +87,8 @@ std::vector<std::string> cubeConundrum::split(const std::string& s, char delimit
    return tokens;
 }
 
-// int cubeConundrum::stringToInt(const std::string& str) const
-// {
-//     static const std::unordered_map<std::string, int> lookup = {
-//         {"zero", 0}, {"one", 1}, {"two", 2},   {"three", 3}, {"four", 4},
-//         {"five", 5}, {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9},
-//         {"0", 0},    {"1", 1},   {"2", 2},     {"3", 3},     {"4", 4},
-//         {"5", 5},    {"6", 6},   {"7", 7},     {"8", 8},     {"9", 9}};
 
-//     auto it = lookup.find(str);
-//     if (it != lookup.end())
-//     {
-//         return it->second;
-//     }
-//     else
-//     {
-//         // Handle error or return a default value
-//         return -1; // Example: return -1 for not found
-//     }
-// }
+token cubeConundrum::stringToToken(const std::string& str) const
+{
+    return token(str);
+}
