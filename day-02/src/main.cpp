@@ -1,17 +1,16 @@
+#include "cubeConundrum.h"
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "cubeConundrum.h"
 
 int main()
 {
-    std::string inputPath {"./examples"};
-    std::string inputFile {"/riddle.txt"};
+    std::string inputPath{"./examples"};
+    std::string inputFile{"/riddle.txt"};
     std::ifstream inputFileHandle{{inputPath + inputFile}, std::ifstream::in};
 
     if (not inputFileHandle.is_open())
         throw std::invalid_argument("wrong file name/path, could not open!");
-    
 
     std::string line;
     std::vector<cubeConundrum> games;
@@ -34,15 +33,23 @@ int main()
     }
 
     int sumOfIds = 0;
-    for (auto & i : games)
+    for (auto& i : games)
     {
-        if (i.evaluateGame(12,13,14) == true)
+        if (i.evaluateGame(12, 13, 14) == true)
         {
             sumOfIds += i.getCumulativeGameData("Game");
         }
     }
 
     std::cout << "The sum of all possible IDs is: " << sumOfIds << std::endl;
+
+    int sumOfPowers = 0;
+    for (auto& i : games)
+    {
+        sumOfPowers += i.evaluatePower();
+    }
+
+    std::cout << "The sum of all Powers is: " << sumOfPowers << std::endl;
 
     return 0;
 }
