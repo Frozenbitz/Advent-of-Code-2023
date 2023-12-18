@@ -1,4 +1,6 @@
 #include "pseudoBitmap.h"
+#include <ranges>
+#include <string>
 
 pseudoBitmap::pseudoBitmap(const std::string& filePath)
     : inputFileHandle{filePath, std::ifstream::in},
@@ -54,9 +56,9 @@ void pseudoBitmap::appendLineToImage(const std::string& lineToAppend)
     stringArt.push_back(std::vector<std::string>{});
 
     auto& currentLine = stringArt.back();
-    for (auto& i : lineToAppend)
+    for (auto& character : lineToAppend)
     {
-        currentLine.push_back({i});
+        currentLine.push_back({character});
     }
 }
 
@@ -120,13 +122,29 @@ std::unordered_map<std::string, int> pseudoBitmap::getSize() const
         {"heigth", getImageEssentials("heigth")}};
 }
 
-std::vector<std::string> pseudoBitmap::getNeighbours() const 
+std::string pseudoBitmap::getNeighbours(int row, int column) const 
 {
-    // ... tbd 
-    int x = 0;
-    int y = 0;
+    std::string neighbours {};
 
-    auto  test = stringArt[x][y];
+    for (auto tryRow : std::ranges::iota_view(row-1, row+2)) 
+    {
+        for (auto tryCol : std::ranges::iota_view(column-1, column+2)) 
+        {
+            try
+            {
+                std::string lookupSymbols {"0123456789"};
+                auto currentSymbol = stringArt.at(tryRow).at(tryCol);
+                if (currentSymbol.find_first_of(lookupSymbols) == std::string::npos)
+                {
+                    neighbours.append(currentSymbol);
+                }
+            }
+            catch(const std::out_of_range& e)
+            {
+                // ignore
+            }
+        }
+    }
 
-    return {};
+    return neighbours;
 }

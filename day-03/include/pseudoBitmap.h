@@ -32,7 +32,7 @@ public:
 
     std::vector<std::vector<std::string>> const & getStringArtHandle () const;
     std::unordered_map<std::string, int> getSize() const;
-    std::vector<std::string> getNeighbours() const;
+    std::string getNeighbours(int row, int column) const;
 };
 
 
