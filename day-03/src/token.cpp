@@ -12,7 +12,7 @@ token::token(std::string const& tokenValue, int line, int offset,
 
 bool token::verify() const
 {
-    std::string lookupSymbols {"@#$%&*+=-"};
+    std::string lookupSymbols {"/@#$%&*+=-"}; // these are relevant token we need for the neighbours
 
     if (neighbours.find_first_of(lookupSymbols) != std::string::npos)
     {
