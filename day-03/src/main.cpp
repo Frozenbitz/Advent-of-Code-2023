@@ -4,6 +4,7 @@
 
 #include "pseudoBitmap.h"
 #include "tokenFactory.h"
+#include "gearFactory.h"
 
 int main()
 {
@@ -14,19 +15,29 @@ int main()
     tokenFactory tokenizer(textArt, imageSize.at("width"), imageSize.at("heigth"));
     std::vector<token> collectionOfToken = tokenizer.tokenize();
 
+    gearFactory lotsOfGears(collectionOfToken, textArt, imageSize.at("width"), imageSize.at("heigth"));
+    std::vector<gear> collectionOfGears = lotsOfGears.tokenize();
+
     int sumOfPartNumbers = 0;
     for (auto & token : collectionOfToken)
     {
-        std::cout << token.getValue() << std::endl;
-
         if (token.verify() == true)
         {
             sumOfPartNumbers += token.getValue();
         }
     }
 
-    std::cout << "the sum of all available Parts is: " << sumOfPartNumbers << std::endl;
+    int sumOfGearRatios = 0;
+    for (auto && gears : collectionOfGears)
+    {
+        std::cout << gears.getRatio() << std::endl;
+        sumOfGearRatios += gears.getRatio();
+    }
+    
 
+    std::cout << "the sum of all available Parts is: " << sumOfPartNumbers << std::endl;
+    std::cout << "the sum of all gear ratios is: " << sumOfGearRatios << std::endl;
+    
     return 0;
 }
 

@@ -11,7 +11,7 @@ class token
 private:
     std::string value;
     int parsedValue = -1;
-    std::unordered_map<std::string, int> location {{"line", -1}, {"offset", -1}};
+    std::unordered_map<std::string, int> location {{"line", -1}, {"offset", -1}, {"length", -1}};
     std::string neighbours {};
 public:
     token(/* args */) = delete;
@@ -20,6 +20,10 @@ public:
 
     bool verify() const;
     int getValue() const;
+    bool contains(int line, int offset) const;
+
+    bool operator==(const token & rhs) const;
+    bool operator<(const token & rhs) const;
 };
 
 

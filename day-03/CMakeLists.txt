@@ -23,7 +23,8 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-add_library(gears src/pseudoBitmap.cpp src/token.cpp src/tokenFactory.cpp)
+add_library(gears   src/pseudoBitmap.cpp src/token.cpp 
+                    src/tokenFactory.cpp src/gear.cpp src/gearFactory.cpp)
 add_library(AOC::gears ALIAS gears)
 target_include_directories(gears PUBLIC include)
 target_link_libraries(gears UTIL::COMPILEOPTIONS)
