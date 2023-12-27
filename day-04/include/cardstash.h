@@ -1,10 +1,10 @@
-#ifndef CARD_H
-#define CARD_H
+#ifndef CARDSTASH_H
+#define CARDSTASH_H
 
 #include <string>
 #include <vector>
 
-class card
+class cardstash
 {
 private:
     std::vector<int> winningNumbers {};
@@ -12,17 +12,19 @@ private:
     int CardID = -1;
     int points = -1;
 public:
-    card(std::string const & card);
-    ~card() = default;
+    cardstash(std::string const & card);
+    ~cardstash() = default;
 
     int getPoints() const;
+    int getID() const;
     int extractID(std::string const & card);
     std::vector<int> extractHands(std::string const & hands);
     std::vector<std::string> split(const std::string& s, char delimiter);
     void calculatePoints();
-    // int power(int base, int exponent) const;
+    int power(int base, int exponent) const;
+
 };
 
 
 
-#endif // CARD_H
+#endif // CARDSTASH_H

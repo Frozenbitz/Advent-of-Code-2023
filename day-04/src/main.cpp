@@ -6,7 +6,7 @@
 
 int main()
 {
-    std::ifstream inputFileHandle{{"./examples/example.txt"}, std::ifstream::in};
+    std::ifstream inputFileHandle{{"./examples/riddle.txt"}, std::ifstream::in};
 
     if (not inputFileHandle.is_open())
         throw std::invalid_argument("wrong file name/path, could not open!");
@@ -27,6 +27,8 @@ int main()
         std::cout << "failed to read stream, try again!" << std::endl;
         throw std::ios_base::failure("wrong file name/path, could not open!");
     }
+
+    std::cout << "available NO of games:" << games.size() << std::endl;
 
     int sumOfPoints = 0;
     for (auto &&game : games)

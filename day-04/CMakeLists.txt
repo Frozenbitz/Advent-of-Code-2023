@@ -28,10 +28,19 @@ add_library(AOC::scratchcards ALIAS scratchcards)
 target_include_directories(scratchcards PUBLIC include)
 target_link_libraries(scratchcards UTIL::COMPILEOPTIONS)
 
+add_library(stash   src/cardstash.cpp)
+add_library(AOC::stash ALIAS stash)
+target_include_directories(stash PUBLIC include)
+target_link_libraries(stash UTIL::COMPILEOPTIONS)
+
 # this will be used to call the main class & to separate code for testing into the trebuchet class
 add_executable(aoc-day4 src/main.cpp)
 target_link_libraries(aoc-day4 UTIL::COMPILEOPTIONS)
 target_link_libraries(aoc-day4 AOC::scratchcards)
+
+add_executable(aoc-day4c2 src/stash.cpp)
+target_link_libraries(aoc-day4c2 UTIL::COMPILEOPTIONS)
+target_link_libraries(aoc-day4c2 AOC::stash)
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
 # with relative paths
