@@ -23,15 +23,15 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-# add_library(scratchcards   src/token.cpp)
-# add_library(AOC::scratchcards ALIAS scratchcards)
-# target_include_directories(scratchcards PUBLIC include)
-# target_link_libraries(scratchcards UTIL::COMPILEOPTIONS)
+add_library(scratchcards   src/card.cpp)
+add_library(AOC::scratchcards ALIAS scratchcards)
+target_include_directories(scratchcards PUBLIC include)
+target_link_libraries(scratchcards UTIL::COMPILEOPTIONS)
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
 add_executable(aoc-day4 src/main.cpp)
 target_link_libraries(aoc-day4 UTIL::COMPILEOPTIONS)
-# target_link_libraries(aoc-day4 AOC::scratchcards)
+target_link_libraries(aoc-day4 AOC::scratchcards)
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
 # with relative paths
