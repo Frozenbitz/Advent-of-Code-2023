@@ -4,11 +4,11 @@ add_executable(TEST::SUCCESS ALIAS alwaysSuccess)
 target_link_libraries(alwaysSuccess UTIL::COMPILEOPTIONS)
 
 # test 1: parse 3 simple execution examples 
-# add_executable(token test_token.cpp)
-# add_executable(TEST::token ALIAS token)
-# target_include_directories(token PRIVATE ../include)
-# target_link_libraries(token UTIL::COMPILEOPTIONS)
-# target_link_libraries(token AOC::gears)
+add_executable(seeds test_seeds.cpp)
+add_executable(TEST::seeds ALIAS seeds)
+target_include_directories(seeds PRIVATE ../include)
+target_link_libraries(seeds UTIL::COMPILEOPTIONS)
+target_link_libraries(seeds AOC::mapper)
 
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
@@ -24,3 +24,10 @@ add_test(
     TEST::SUCCESS --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
     --build-project TEST::SUCCESS --test-command "${CMAKE_CTEST_COMMAND}")
+ 
+add_test(
+    NAME "generate seeds"
+    COMMAND
+      TEST::seeds --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+      --build-project TEST::seeds --test-command "${CMAKE_CTEST_COMMAND}")
