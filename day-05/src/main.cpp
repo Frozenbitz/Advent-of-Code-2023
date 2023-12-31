@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <ranges>
+#include <limits>
 
 #include "AlmanacToBlock.h"
 #include "RangeMapper.h"
@@ -49,24 +51,25 @@ int main()
     almanac_map["temperature-to-humidity"] = RangeMapper(collectionOfMappers.Temperature2Humidity);
     almanac_map["humidity-to-location"] = RangeMapper(collectionOfMappers.Humidity2Location);
 
-    std::vector<long> locationNumber;
-    for (auto &&seed : collectionOfMappers.seeds)
+    long minRun = std::numeric_limits<int>::max();
+    for (auto &&range : collectionOfMappers.seeds)
     {
-        long map2soil = almanac_map["seed-to-soil"].convert(seed);
-        long map2fertilizer = almanac_map["soil-to-fertilizer"].convert(map2soil);
-        long map2water = almanac_map["fertilizer-to-water"].convert(map2fertilizer);
-        long map2light = almanac_map["water-to-light"].convert(map2water);
-        long map2temperature = almanac_map["light-to-temperature"].convert(map2light);
-        long map2humidity = almanac_map["temperature-to-humidity"].convert(map2temperature);
-        long map2location = almanac_map["humidity-to-location"].convert(map2humidity);
-        std::cout << "seed: " << seed << " -> location: " << map2location << std::endl;
-        locationNumber.push_back(map2location);
+        std::cout << "running : " << range.rangeStart << " seed range" << std::endl; 
+
+        for (auto && seed: std::ranges::iota_view(range.rangeStart, range.rangeEnd))
+        {
+            long map2soil = almanac_map["seed-to-soil"].convert(seed);
+            long map2fertilizer = almanac_map["soil-to-fertilizer"].convert(map2soil);
+            long map2water = almanac_map["fertilizer-to-water"].convert(map2fertilizer);
+            long map2light = almanac_map["water-to-light"].convert(map2water);
+            long map2temperature = almanac_map["light-to-temperature"].convert(map2light);
+            long map2humidity = almanac_map["temperature-to-humidity"].convert(map2temperature);
+            long map2location = almanac_map["humidity-to-location"].convert(map2humidity);
+            minRun = std::min(minRun, map2location);
+        }
     }
 
-    auto minIt = std::min_element(locationNumber.begin(), locationNumber.end());
-    if (minIt != locationNumber.end()) {
-        std::cout << "The smallest element is " << *minIt << '\n';
-    }
+    std::cout << "The smallest element is " << minRun << '\n';
 
     return 0;
 }

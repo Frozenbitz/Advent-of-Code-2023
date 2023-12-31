@@ -111,8 +111,16 @@ void AlmanacToBlocks::handleStateSeeds(std::string line) {
     auto words_begin = std::sregex_iterator(line.begin(), line.end(), token_pattern);
     auto words_end = std::sregex_iterator(); //The default-constructed std::regex_iterator is the end-of-sequence iterator.
 
+    long rangeStart = 0; 
     for (std::sregex_iterator i = words_begin; i != words_end; ++i) { // invrement calls r_search
         std::smatch match = *i;
-        seeds.push_back(stol(match.str()));
+
+        if (rangeStart == 0) {
+            rangeStart = stol(match.str());
+            continue;
+        } else {
+            seeds.push_back(SeedRange(rangeStart, stol(match.str())));
+            rangeStart = 0;
+        }
     }
 }

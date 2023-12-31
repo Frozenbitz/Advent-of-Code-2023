@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "states.h"
+#include "seedRange.h"
 
 
 class AlmanacToBlocks {
@@ -14,7 +15,7 @@ private:
 
 public:
     // here we store the different blocks
-    std::vector<long> seeds;
+    std::vector<SeedRange> seeds;
     std::vector<std::string> Seed2Soil;
     std::vector<std::string> Soil2Fertilizer;
     std::vector<std::string> Fertilizer2Water;
