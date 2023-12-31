@@ -23,7 +23,7 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-add_library(mapper   src/statemachine.cpp)
+add_library(mapper   src/AlmanacToBlock.cpp src/RangeMapper.cpp src/Range.cpp)
 add_library(AOC::mapper ALIAS mapper)
 target_include_directories(mapper PUBLIC include)
 target_link_libraries(mapper UTIL::COMPILEOPTIONS)

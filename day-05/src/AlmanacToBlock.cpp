@@ -1,14 +1,14 @@
-#include "statemachine.h"
+#include "AlmanacToBlock.h"
 
 #include <regex>
 
-StateMachine_AlmanacToBlocks::StateMachine_AlmanacToBlocks() : 
+AlmanacToBlocks::AlmanacToBlocks() : 
     currentState(State::seeds)
     {}
 
 
 
-void StateMachine_AlmanacToBlocks::handleLine(std::string line) {
+void AlmanacToBlocks::handleLine(std::string line) {
 
     switch (currentState) {
 
@@ -104,7 +104,7 @@ void StateMachine_AlmanacToBlocks::handleLine(std::string line) {
 }
 
 
-void StateMachine_AlmanacToBlocks::handleStateSeeds(std::string line) {
+void AlmanacToBlocks::handleStateSeeds(std::string line) {
     
     std::string pattern = R"(\s*(\d+)\s*)";
     std::regex token_pattern(pattern, std::regex_constants::ECMAScript);

@@ -1,13 +1,13 @@
 #include <iostream>
 #include <cassert>
 
-#include "statemachine.h"
+#include "AlmanacToBlock.h"
 
 int main() {
     
     {
         std::string line = "seeds: 79 14 55 13"; 
-        StateMachine_AlmanacToBlocks stateMachine;
+        AlmanacToBlocks stateMachine;
         stateMachine.handleLine(line);
         assert(stateMachine.seeds.size() == 4);
         assert(stateMachine.seeds.at(0) == 79);
@@ -18,7 +18,7 @@ int main() {
 
     {
         std::string line = "seeds: 79 123456 55 13"; 
-        StateMachine_AlmanacToBlocks stateMachine;
+        AlmanacToBlocks stateMachine;
         stateMachine.handleLine(line);
         assert(stateMachine.seeds.size() == 4);
         assert(stateMachine.seeds.at(0) == 79);
@@ -29,7 +29,7 @@ int main() {
 
     {
         std::string line = "seeds: 1"; 
-        StateMachine_AlmanacToBlocks stateMachine;
+        AlmanacToBlocks stateMachine;
         stateMachine.handleLine(line);
         assert(stateMachine.seeds.size() == 1);
         assert(stateMachine.seeds.at(0) == 1);

@@ -8,7 +8,7 @@
 #include "states.h"
 
 
-class StateMachine_AlmanacToBlocks {
+class AlmanacToBlocks {
 private:
     State currentState;
 
@@ -24,17 +24,10 @@ public:
     std::vector<std::string> Humidity2Location;
 
 public:
-    StateMachine_AlmanacToBlocks();
+    AlmanacToBlocks();
 
     void handleLine(std::string line);
     void handleStateSeeds(std::string line);
-    // void handleStateSeedToSoil(std::string line);
-    // void handleStateSoilToFertilizer(std::string line);
-    // void handleStateFertilizerToWater(std::string line);
-    // void handleStateWaterToLight(std::string line);
-    // void handleStateLightToTemperature(std::string line);
-    // void handleStateTemperatureToHumidity(std::string line);
-    // void handleStateHumidityToLocation(std::string line);
 
 };
 
