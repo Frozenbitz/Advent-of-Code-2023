@@ -1,11 +1,11 @@
 #include "Range.h"
 
-Range::Range(int dest, int src, int len) : 
+Range::Range(long dest, long src, long len) : 
         DestinationRangeStart(dest),
         SourceRangeStart(src),
         RangeLength(len) {};
 
-bool Range::contains(int source) const {
+bool Range::contains(long source) const {
 
     if (source >= SourceRangeStart && 
         source < (SourceRangeStart + RangeLength))
@@ -16,9 +16,9 @@ bool Range::contains(int source) const {
     return false;
 }
 
-int Range::map(int source) const {
+long Range::map(long source) const {
 
-    int tmp = source;
+    long tmp = source;
     if (contains(source))
     {
         tmp = DestinationRangeStart + (source - SourceRangeStart);

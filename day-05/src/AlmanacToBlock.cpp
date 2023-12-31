@@ -113,6 +113,6 @@ void AlmanacToBlocks::handleStateSeeds(std::string line) {
 
     for (std::sregex_iterator i = words_begin; i != words_end; ++i) { // invrement calls r_search
         std::smatch match = *i;
-        seeds.push_back(stoi(match.str()));
+        seeds.push_back(stol(match.str()));
     }
 }

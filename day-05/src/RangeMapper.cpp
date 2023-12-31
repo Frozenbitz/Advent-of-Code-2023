@@ -10,9 +10,9 @@ RangeMapper::RangeMapper(const std::vector<std::string>& source) {
     }
 }
 
-int RangeMapper::convert(int value) const {
+long RangeMapper::convert(long value) const {
 
-    int tmp = value;
+    long tmp = value;
     for (auto &&subRange : localRanges)
     {
         if (subRange.contains(value))
@@ -34,5 +34,5 @@ Range RangeMapper::split2Range(const std::string& s, char delimiter)
         tokens.push_back(token);
     }
     
-    return Range(stoi(tokens[0]), stoi(tokens[1]), stoi(tokens[2]));
+    return Range(stol(tokens[0]), stol(tokens[1]), stol(tokens[2]));
 }

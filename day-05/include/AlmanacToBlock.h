@@ -14,7 +14,7 @@ private:
 
 public:
     // here we store the different blocks
-    std::vector<int> seeds;
+    std::vector<long> seeds;
     std::vector<std::string> Seed2Soil;
     std::vector<std::string> Soil2Fertilizer;
     std::vector<std::string> Fertilizer2Water;

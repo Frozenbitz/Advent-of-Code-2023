@@ -20,7 +20,7 @@ public:
 
 
     // Add your class methods and member variables here
-    int convert(int value) const;
+    long convert(long value) const;
     Range split2Range(const std::string& s, char delimiter);
 };
 

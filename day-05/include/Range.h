@@ -4,18 +4,18 @@
 class Range
 {
 public:
-    int DestinationRangeStart;
-    int SourceRangeStart;
-    int RangeLength;
+    long DestinationRangeStart;
+    long SourceRangeStart;
+    long RangeLength;
 
     Range() = delete;
     Range(const Range& range) = default; // needed for vector instantiation
     Range(Range&& range) = default;
     Range& operator=(const Range& range) = default;
-    Range(int dest, int src, int len);
+    Range(long dest, long src, long len);
 
-    bool contains(int source) const;
-    int map(int source) const;
+    bool contains(long source) const;
+    long map(long source) const;
 };
 
 #endif // RANGE_H

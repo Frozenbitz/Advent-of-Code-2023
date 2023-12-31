@@ -9,7 +9,7 @@
 
 int main()
 {
-    std::ifstream almanac{{"./examples/example.txt"}, std::ifstream::in};
+    std::ifstream almanac{{"./examples/riddle.txt"}, std::ifstream::in};
 
     if (not almanac.is_open())
         throw std::invalid_argument("wrong file name/path, could not open!");
@@ -49,16 +49,16 @@ int main()
     almanac_map["temperature-to-humidity"] = RangeMapper(collectionOfMappers.Temperature2Humidity);
     almanac_map["humidity-to-location"] = RangeMapper(collectionOfMappers.Humidity2Location);
 
-    std::vector<int> locationNumber;
+    std::vector<long> locationNumber;
     for (auto &&seed : collectionOfMappers.seeds)
     {
-        int map2soil = almanac_map["seed-to-soil"].convert(seed);
-        int map2fertilizer = almanac_map["soil-to-fertilizer"].convert(map2soil);
-        int map2water = almanac_map["fertilizer-to-water"].convert(map2fertilizer);
-        int map2light = almanac_map["water-to-light"].convert(map2water);
-        int map2temperature = almanac_map["light-to-temperature"].convert(map2light);
-        int map2humidity = almanac_map["temperature-to-humidity"].convert(map2temperature);
-        int map2location = almanac_map["humidity-to-location"].convert(map2humidity);
+        long map2soil = almanac_map["seed-to-soil"].convert(seed);
+        long map2fertilizer = almanac_map["soil-to-fertilizer"].convert(map2soil);
+        long map2water = almanac_map["fertilizer-to-water"].convert(map2fertilizer);
+        long map2light = almanac_map["water-to-light"].convert(map2water);
+        long map2temperature = almanac_map["light-to-temperature"].convert(map2light);
+        long map2humidity = almanac_map["temperature-to-humidity"].convert(map2temperature);
+        long map2location = almanac_map["humidity-to-location"].convert(map2humidity);
         std::cout << "seed: " << seed << " -> location: " << map2location << std::endl;
         locationNumber.push_back(map2location);
     }

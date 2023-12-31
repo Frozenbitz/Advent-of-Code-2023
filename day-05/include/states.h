@@ -12,17 +12,5 @@ enum class State {
     humidity_to_location
 };
 
-// enum class Event {
-//     none, 
-//     startSeed,
-//     startSeed2Soil,
-//     startSoil2Fertilizer,
-//     startFertilizer2Water,
-//     startWater2Light,
-//     startLight2Temperature,
-//     startTemperature2Humidity,
-//     startHumidity2Location
-// };
-
 #endif // STATES_H
 
