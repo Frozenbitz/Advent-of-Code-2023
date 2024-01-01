@@ -1,13 +1,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <unordered_map>
 #include <ranges>
 #include <limits>
+#include <atomic>
+#include <execution>
 
 #include "AlmanacToBlock.h"
 #include "RangeMapper.h"
+
 
 int main()
 {
@@ -51,9 +55,12 @@ int main()
     almanac_map["temperature-to-humidity"] = RangeMapper(collectionOfMappers.Temperature2Humidity);
     almanac_map["humidity-to-location"] = RangeMapper(collectionOfMappers.Humidity2Location);
 
-    long minRun = std::numeric_limits<int>::max();
-    for (auto &&range : collectionOfMappers.seeds)
-    {
+    std::mutex globalMutex;
+    long globalMin = std::numeric_limits<int>::max();
+    auto boundFunc = [&](const SeedRange& range) {
+
+        long currentMin = std::numeric_limits<int>::max();
+
         std::cout << "running : " << range.rangeStart << " seed range" << std::endl; 
 
         for (auto && seed: std::ranges::iota_view(range.rangeStart, range.rangeEnd))
@@ -65,11 +72,23 @@ int main()
             long map2temperature = almanac_map["light-to-temperature"].convert(map2light);
             long map2humidity = almanac_map["temperature-to-humidity"].convert(map2temperature);
             long map2location = almanac_map["humidity-to-location"].convert(map2humidity);
-            minRun = std::min(minRun, map2location);
+            currentMin = std::min(currentMin, map2location);
         }
-    }
 
-    std::cout << "The smallest element is " << minRun << '\n';
+        if (currentMin < globalMin){
+            std::lock_guard<std::mutex> guard(globalMutex);
+            globalMin = currentMin;
+        }
+        std::cout << "---" << std::endl;
+    };
+
+    std::for_each(  std::execution::par_unseq,
+                    collectionOfMappers.seeds.begin(),
+                    collectionOfMappers.seeds.end(),
+                    boundFunc);
+
+    // std::cout << "The smallest element is " << globalMin.load(std::memory_order_relaxed) << '\n';
+    std::cout << "The smallest element is " << globalMin << '\n';
 
     return 0;
 }

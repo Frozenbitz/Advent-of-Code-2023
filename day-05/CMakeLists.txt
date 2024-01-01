@@ -26,7 +26,7 @@ include(cmake/genericTarget.cmake)
 add_library(mapper   src/AlmanacToBlock.cpp src/RangeMapper.cpp src/Range.cpp)
 add_library(AOC::mapper ALIAS mapper)
 target_include_directories(mapper PUBLIC include)
-target_link_libraries(mapper UTIL::COMPILEOPTIONS)
+target_link_libraries(mapper UTIL::COMPILEOPTIONS tbb)
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
 add_executable(aoc-day5 src/main.cpp)
