@@ -14,7 +14,7 @@ public:
     raceFactory(const std::string& filename);
     std::vector<Race> getRaces();
     std::vector<std::string> readLinesFromFile (const std::string& filename);
-    std::vector<int> splitString(const std::string& line);
+    std::vector<long> splitString(const std::string& line);
 
 private:
     std::string filename;

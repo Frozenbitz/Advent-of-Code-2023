@@ -5,19 +5,38 @@ raceFactory::raceFactory(const std::string& filename) : filename(filename) {
 
     std::vector<std::string> lines = readLinesFromFile(filename);
 
-    std::vector<int> timeSeries = splitString(lines[0]);
-    std::vector<int> distanceSeries = splitString(lines[1]);
-    int size = timeSeries.size();
+    std::vector<long> timeSeries = splitString(lines[0]);
+    std::vector<long> distanceSeries = splitString(lines[1]);
+    long size = timeSeries.size();
     
     if (timeSeries.size() != distanceSeries.size()) {
         throw std::invalid_argument("time and distance series must be of equal length!");
     }
 
-    for (auto &&i : std::ranges::iota_view(0, size))
+    // without kerning
+    // for (auto &&i : std::ranges::iota_view(0, size))
+    // {
+    //     races.push_back(Race(timeSeries[i], distanceSeries[i]));
+    // }
+    
+    // with kerning
+    std::stringstream ssTime;
+    for (auto && timeVal : timeSeries)
     {
-        races.push_back(Race(timeSeries[i], distanceSeries[i]));
+        ssTime << timeVal;
     }
     
+    std::stringstream ssDistance;
+    for (auto && distanceVal : distanceSeries)
+    {
+        ssDistance << distanceVal;
+    }
+    
+    long newTime = stol(ssTime.str());
+    long newDistance = stol(ssDistance.str());
+
+    races.push_back(Race(newTime, newDistance));
+
 }
 
 std::vector<Race> raceFactory::getRaces() {
@@ -53,17 +72,17 @@ std::vector<std::string> raceFactory::readLinesFromFile (const std::string& file
     return inputStream_lines;
 }
 
-std::vector<int> raceFactory::splitString(const std::string& line) {
+std::vector<long> raceFactory::splitString(const std::string& line) {
     std::string pattern = R"(\s*(\d+)\s*)";
     std::regex token_pattern(pattern, std::regex_constants::ECMAScript);
     auto words_begin = std::sregex_iterator(line.begin(), line.end(), token_pattern);
     auto words_end = std::sregex_iterator(); //The default-constructed std::regex_iterator is the end-of-sequence iterator.
 
     long rangeStart = 0; 
-    std::vector<int> data;
+    std::vector<long> data;
     for (std::sregex_iterator i = words_begin; i != words_end; ++i) { // increment calls r_search
         std::smatch match = *i;
-        data.push_back(stoi(match.str()));
+        data.push_back(stol(match.str()));
     }
 
     return data;

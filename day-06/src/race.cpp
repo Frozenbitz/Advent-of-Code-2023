@@ -1,6 +1,6 @@
 #include "race.h"
 
-Race::Race(int time, int distance) :
+Race::Race(long time, long distance) :
     availableTime(time),
     distanceToBeat(distance),
     successfullRaces(0)
@@ -12,9 +12,9 @@ void Race::SimulateRaces() {
     
     for (auto && attempt : std::ranges::iota_view(0, availableTime))
     {
-        int startingSpeed = attempt;
-        int travelTime = availableTime - attempt;
-        int distanceCovered = startingSpeed * travelTime;
+        long startingSpeed = attempt;
+        long travelTime = availableTime - attempt;
+        long distanceCovered = startingSpeed * travelTime;
 
         if (distanceCovered > distanceToBeat)
         {
@@ -24,7 +24,7 @@ void Race::SimulateRaces() {
 }
 
 
-int Race::GetSuccessfullRaces() const {
+long Race::GetSuccessfullRaces() const {
 
     return successfullRaces;
 }

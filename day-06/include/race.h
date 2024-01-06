@@ -9,17 +9,17 @@
 
 class Race {
 public:
-    Race(int time, int distance);
+    Race(long time, long distance);
     ~Race() = default;
 
 
     void SimulateRaces();
-    int GetSuccessfullRaces() const;
+    long GetSuccessfullRaces() const;
 
 private:
-    int availableTime;
-    int distanceToBeat;
-    int successfullRaces;
+    long availableTime;
+    long distanceToBeat;
+    long successfullRaces;
 };
 
 #endif // RACE_H
