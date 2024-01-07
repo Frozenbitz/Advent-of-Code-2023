@@ -33,12 +33,12 @@ int main() {
 
     {
         camelCards myCard("T55J5", 1);
-        assert(myCard.getPower() == 4);
+        assert(myCard.getPower() == 6); // 6 with joker, 4 before
     }
 
     {
         camelCards myCard("QQQJA", 1);
-        assert(myCard.getPower() == 4);
+        assert(myCard.getPower() == 6); // 6 with joker, 4 before
     }
 
     {

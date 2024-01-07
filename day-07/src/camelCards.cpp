@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <map>
+
 
 camelCards::camelCards(std::string cards, int newBid) :
     bid{newBid}, power{0}, cardHands{cards}
@@ -14,6 +14,8 @@ camelCards::camelCards(std::string cards, int newBid) :
         tmp[{mappedValue}] += 1;
     }
 
+    tmp = applyJokerRule(tmp);
+    
     // create a sorted list of cards
     for (auto && card : tmp)
     {
@@ -81,7 +83,7 @@ bool camelCards::operator<(const camelCards& other) const {
 
     // if power is equal, then compare the hands
     std::unordered_map <std::string, int> weights
-         {{ "A", 14 }, { "K", 13 }, { "Q", 12}, {"J", 11}, {"T", 10}, {"9", 9},
+         {{ "A", 14 }, { "K", 13 }, { "Q", 12}, {"J", 1}, {"T", 10}, {"9", 9}, // updated J
         {"8", 8}, {"7", 7}, {"6", 6}, {"5", 5}, {"4", 4}, {"3", 3}, {"2", 2}};
 
     for (auto && index : std::ranges::iota_view(0, 5)) // size of cards
@@ -97,4 +99,46 @@ bool camelCards::operator<(const camelCards& other) const {
     }
 
     return true;
+}
+
+
+std::string camelCards::getMaxKey(std::map<std::string, int> keyStore) const {
+
+    // find the max value in the map
+    int maxValue = 0;
+    std::string maxKey = "";
+
+    for (auto && values : keyStore)
+    {
+        if (maxValue < values.second) {
+            maxValue = values.second;
+            maxKey = values.first;
+        }
+    }
+    
+    return maxKey;
+}
+
+
+std::map<std::string, int> camelCards::applyJokerRule(std::map<std::string, int> keyStore) const {
+
+    // if we have an "J", find the possible max value
+    // add J to max value
+    // remove J from the map
+    // this should only change the power, not rule 2 below (operator<)
+
+    if (keyStore.contains("J")){
+        int JMax = keyStore.at({"J"});
+
+        if (JMax == 5)
+            return {{"AAAAA", 5}};
+
+        if (JMax > 0) {
+            keyStore.erase({"J"});
+            std::string key = getMaxKey(keyStore);
+            keyStore.at({key}) += JMax;
+        }
+    }
+
+    return keyStore;
 }
