@@ -9,25 +9,15 @@
 // #include <vector>
 // #include <numeric>
 
-#include "camelCards.h"
-#include "camelCardsFactory.h"
-
+#include "Navigator.h"
 
 int main()
 {
     
-    camelCardsFactory parser {"examples/riddle.txt"};
-    std::vector<camelCards> listOfCamelCards = parser.getCards();
+    Navigator nav {"examples/riddle.txt"};
+    int steps = nav.traverseFromTo("AAA", "ZZZ");
 
-    std::sort(listOfCamelCards.begin(), listOfCamelCards.end());
-    
-    long totalWinnings = 0;
-    for (auto cardNo : std::ranges::iota_view(0, static_cast<int>(listOfCamelCards.size())))
-    {
-        totalWinnings += (cardNo + 1) * listOfCamelCards.at(cardNo).getBid();
-    }
-
-    std::cout << "All winnings together: " << totalWinnings << std::endl;
+    std::cout << "Total steps until end: " << steps << std::endl;
 
     return 0;
 }

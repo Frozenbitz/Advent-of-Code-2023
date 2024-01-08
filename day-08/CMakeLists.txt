@@ -23,15 +23,15 @@ include(cmake/genericTarget.cmake)
 
 
 # add the main class for this assignment
-# add_library(camelCards   src/camelCards.cpp src/camelCardsFactory.cpp)
-# add_library(AOC::camelCards ALIAS camelCards)
-# target_include_directories(camelCards PUBLIC include)
+add_library(navigator   src/Navigator.cpp src/Node.cpp)
+add_library(AOC::navigator ALIAS navigator)
+target_include_directories(navigator PUBLIC include)
 # target_link_libraries(race UTIL::COMPILEOPTIONS tbb) # for multicore support
 
 # this will be used to call the main class & to separate code for testing into the trebuchet class
 add_executable(aoc-day8 src/main.cpp)
 target_link_libraries(aoc-day8 UTIL::COMPILEOPTIONS)
-target_link_libraries(aoc-day8 AOC::camelCards)
+target_link_libraries(aoc-day8 AOC::navigator)
 
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 

@@ -4,11 +4,11 @@ add_executable(TEST::SUCCESS ALIAS alwaysSuccess)
 target_link_libraries(alwaysSuccess UTIL::COMPILEOPTIONS)
 
 # test 1: parse 3 simple execution examples 
-# add_executable(testCamelCards test_camelCards.cpp)
-# add_executable(TEST::testCamelCards ALIAS testCamelCards)
-# target_include_directories(testCamelCards PRIVATE ../include)
-# target_link_libraries(testCamelCards UTIL::COMPILEOPTIONS)
-# target_link_libraries(testCamelCards AOC::camelCards)
+add_executable(testNav test_Navigation.cpp)
+add_executable(TEST::testNav ALIAS testNav)
+target_include_directories(testNav PRIVATE ../include)
+target_link_libraries(testNav UTIL::COMPILEOPTIONS)
+target_link_libraries(testNav AOC::navigator)
 
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
@@ -25,9 +25,9 @@ add_test(
     "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
     --build-project TEST::SUCCESS --test-command "${CMAKE_CTEST_COMMAND}")
  
-# add_test(
-#     NAME "instantiate CamelCards"
-#     COMMAND
-#       TEST::testCamelCards --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
-#       "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
-#       --build-project TEST::testCamelCards --test-command "${CMAKE_CTEST_COMMAND}")
+add_test(
+    NAME "initialize and run navigation"
+    COMMAND
+      TEST::testNav --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+      --build-project TEST::testNav --test-command "${CMAKE_CTEST_COMMAND}")
