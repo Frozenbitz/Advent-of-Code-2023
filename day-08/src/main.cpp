@@ -15,8 +15,9 @@ int main()
 {
     
     Navigator nav {"examples/riddle.txt"};
-    int steps = nav.traverseFromTo("AAA", "ZZZ");
-
+    // int steps = nav.traverseFromTo("AAA", "ZZZ");
+    int steps = nav.ghostlyTraverse();
+    
     std::cout << "Total steps until end: " << steps << std::endl;
 
     return 0;

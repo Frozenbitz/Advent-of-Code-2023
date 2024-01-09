@@ -10,6 +10,12 @@ target_include_directories(testNav PRIVATE ../include)
 target_link_libraries(testNav UTIL::COMPILEOPTIONS)
 target_link_libraries(testNav AOC::navigator)
 
+add_executable(testGhost test_ghostlyNavigation.cpp)
+add_executable(TEST::testGhost ALIAS testGhost)
+target_include_directories(testGhost PRIVATE ../include)
+target_link_libraries(testGhost UTIL::COMPILEOPTIONS)
+target_link_libraries(testGhost AOC::navigator)
+
 
 # create a local copy of all our test files in the binary subdir, this allows us to call all tests from within the bin-dir 
 # with relative paths
@@ -31,3 +37,10 @@ add_test(
       TEST::testNav --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
       "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
       --build-project TEST::testNav --test-command "${CMAKE_CTEST_COMMAND}")
+
+add_test(
+    NAME "test ghost traverse"
+    COMMAND
+      TEST::testGhost --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}/test" --build-generator "${CMAKE_GENERATOR}"
+      --build-project TEST::testGhost --test-command "${CMAKE_CTEST_COMMAND}")

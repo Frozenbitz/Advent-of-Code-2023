@@ -18,6 +18,12 @@ Navigator::Navigator(std::string file) {
         Node data = splitString(line);
         nodes.insert({data.getName(), data});
     }
+
+    for (auto &&node : nodes)
+    {
+        if (node.first[2] == 'A')
+            start.push_back(node.first);
+    }
 }
 
 std::vector<std::string> Navigator::readLinesFromFile (const std::string& filename)
@@ -111,4 +117,63 @@ int Navigator::traverseFromTo(std::string from, std::string to) const {
     }
     
     return 0;
+}
+
+int Navigator::ghostlyTraverse() const {
+
+    // start at: 
+    std::vector<std::string> nextElement = start;
+    int stepsTaken = 0;
+    auto iterator = directionInstructions.begin();
+
+    while (iterator != directionInstructions.end())
+    {
+        if (atEnd(nextElement))
+        {
+            return stepsTaken;
+        }
+
+        if (iterator->compare("L") == 0)
+        {
+            for (auto &&element : nextElement)
+            {
+                element = nodes.at(element).traverseLeft();
+            }
+        }
+        else if (iterator->compare("R") == 0)
+        {
+            for (auto &&element : nextElement)
+            {
+                element = nodes.at(element).traverseRight();
+            }
+        }
+        else
+        {
+            throw std::invalid_argument("invalid direction instruction!");
+        }
+
+        iterator++;
+        stepsTaken++;
+
+        // restart if we are not finished
+        if (iterator == directionInstructions.end())
+        {
+            iterator = directionInstructions.begin();
+        }
+    }
+    
+    return 0;
+}
+
+bool Navigator::atEnd(std::vector<std::string> const & currentSteps) const {
+    
+    for (auto &&step : currentSteps)
+    {
+        if (step[2] != 'Z')
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
